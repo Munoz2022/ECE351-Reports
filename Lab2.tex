@@ -1,0 +1,386 @@
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 2%                                                       %
+% 9/4/21 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 2: User Defined Functions}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to introduce user defined functions and then utilize these functions to time shift, scale , reverse and discrete differentiation. This lab uses Python to accomplish it. One of the main key points in this lab is to use numpy and not lists. I first began with inserting the necessary packages or a lot actually.
+
+
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that was assigned was to write a user defined function in order to plot: \[y(t)=cos(t)\] 
+Following code that was provided as an example of user define functions and using numpy.cos() I created the following user define function for $y(t)=cos(t).$ making sure the axis were all visible and within range Figure 1 below shoes the code. It is important to notice that I did not need the if statement and could have achieved it by just writing a for loop without the "if". The plot is under results as Fig 7.
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=10cm]{Signals And Systems 1/Lab 2/cosinecode.png}
+\end{subfigure}
+\caption{Cosine user define function }
+\label{fig:image2}
+\end{figure}
+
+
+
+
+
+\subsection{Part 2}
+For part 2 the task was to create user define functions for a figure that was given and to plot the results. The derivation of the equation was pretty tough to understand but I finally manage to understand how to make equations from a graph using step and ramp functions. \[y(t)=r(t)-r(t-3)+5u(t-3)-2u(t-6)-2r(t-6)\] 
+The first equation created was a step and ramp function shown in Figure 2. 
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.98\linewidth, height=17
+cm]{Signals And Systems 1/Lab 2/stepandrampcode.png}
+\end{subfigure}
+\caption{Step and Ramp user functions Code}
+\label{fig:image2}
+\end{figure}
+
+\clearpage
+I began with initializing a range of my x-axis (t)  and that would be from (-5,10) incremented specific steps I declared earlier. I defined the function ''stepfunc'' and passed it the range of my x-axis. I began a loop for the length of my x-axis range and if the value of the position in which the range landed on was less then zero then I would make the $y[i]$ equal to zero, if it wasn't then I would make that position in my y array as one. My 'y' array was initialized to zero earlier and is my 'output'. This gives me a step function. Figure 8 shows the plot that it works as a step function under the results section. I did something very similar with the ramp function, except that if $t[i]$ is not less then the value zero then I would make $y[i]=t[i]$ meaning I would make them equal with a slope of 1 which is the definition of a natural ramp function. Figure 9 shows the ramp function working. Finally it was time to put these functions to create the figure given and match it. After the functions were created then it was simply to write the function that was made from steps and ramp functions with appropriate shifts. Figure 10 can be found under the results section it shows the identical match of the figure provided using step and ramp functions.
+
+
+
+\subsection{Part 3}
+In this task the function created was to be used for time-shifting and scaling operations. Figure 3 shows the time reversal code.
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=10
+cm]{Signals And Systems 1/Lab 2/timereversecode.png}
+\end{subfigure}
+\caption{Time reversal function Code}
+\label{fig:image2}
+\end{figure}
+\clearpage
+\noindent The time reversal took me a while and made me realize making functions is much easier then what I originally was thinking. I created 'timereversalfunc' which took in a value 'temp'. I initialized 'timereverse' to zero and began a loop to from 0 to the length of temp which in this case $temp= fig2$ or the function that was used to make the figure in part 2. I then proceeded to insert all the values into 'timereverse' but increments down or the opposite way to fill it in backwards. I return and called the function and the plot is in Figure 11 under the results sections.
+\newline
+\newline
+\noindent The next sub-task was to time shift the figure created $f(t-4)$ and $f(-t-4)$. Below in Figure 4 is the code.
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=17
+cm]{Signals And Systems 1/Lab 2/timeshiftcode.png}
+\end{subfigure}
+\caption{Time Shifting function Code}
+\label{fig:image2}
+\end{figure}
+
+\clearpage
+In the time-shift code in Figure 4 I define 'functminus4' and passed it two values; 'temp2' and 'shifter'. One would hold the range shifted and the other was how many moves shifted. I then called 'functminus4' and passed t and 4 't' would be my range since all I am doing is shifting my range declared earlier. I then plot that with the original figure and obtain the plot which can be found under the results section under Figure 12.
+The other sub-task was $f(-t-4)$ and to plot the results. Figure 4 has the code for this shift as well. I used the reversed shift used in the previous task and the reversed figure and plotted both. No function needed to be created and this actually worked. The result is in Figure 13.
+
+
+
+\newline
+The other sub-task was to to apply a timescale operation. $f(t/2)$ and $f(2t)$ and plot the results. I felt like these were the easiest but took a while to think about and once figured out they were simple.
+
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=14
+cm]{Signals And Systems 1/Lab 2/divandmultcode.png}
+\end{subfigure}
+\caption{Time Shifting function Code}
+\label{fig:image2}
+\end{figure}
+\noindent I was thinking of making a function but realized if I divided my x-range time-frame I could achieve the same thing. That is what I did I divided my time-frame by 2 and plotted it with the original function 'fig2'. The same scenario happen for multiplication. I multiplied my time scale by 2. It is important to note that I rarely am making changes to the original timescale. I am making it equal to another value and that way I can mess with it and not change the original. Like in this task 'tdivby2' and 'ttimes2' are the scale changes and its those I am plotting with my original function 'fig2'. The plot results are in Figure 14 and 15 for both shifts respectively.
+
+
+\noindent The last task was to differentiate the figure and plot it by hand and use python $numpy.diff()$ to differentiate it. Figure 6 shows the code and the plot can be found under the results section Figure 16.
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=10
+cm]{Signals And Systems 1/Lab 2/derivcode.png}
+\end{subfigure}
+\caption{Time Shifting function Code}
+\label{fig:image2}
+\end{figure}
+
+\noindent I called the differentiate function and was easier then what I thought, since I thought I needed a special package included in python. After calling the $np.diff()$ I proceeded to plot it which used the same structure as my previous plots.
+\newpage
+
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/cosplot.png}
+\end{subfigure}
+\caption{ Cosine(x)}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\subsection{Part 2}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/stepplot.png}
+\end{subfigure}
+\caption{ Step function}
+\label{fig2:image22}
+\end{figure}
+
+
+\newpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/rampplot.png}
+\end{subfigure}
+\caption{ Ramp function}
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/fig2original.png}
+\end{subfigure}
+\caption{ Imitated figure}
+\label{fig2:image22}
+\end{figure}
+
+\newpage
+
+
+
+\subsection{Part 3}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/fig2timereversed.png}
+\end{subfigure}
+\caption{ Time reversal figure}
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/fig2(t-4).png}
+\end{subfigure}
+\caption{ f(t-4) function}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\newpage
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/fig2(-t-4).png}
+\end{subfigure}
+\caption{ f(-t-4) function}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/fig2(tdiv2).png}
+\end{subfigure}
+\caption{ f(t/2) function}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\newpage
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/fig2(2t).png}
+\end{subfigure}
+\caption{ f(2t) function}
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/derivfig2.png}
+\end{subfigure}
+\caption{ Derivative function}
+\label{fig2:image22}
+\end{figure}
+\newpage
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 2/dev.jpg}
+\end{subfigure}
+\caption{ Derivative function}
+\label{fig2:image22}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Questions}\label{sec:res}
+
+
+
+
+
+
+1. Are the plots from Part 3 Task 4 and Part 3 Task 5 identical? Is it possible for them to
+match? Explain why or why not.
+\newline
+
+ They are not quiet identical because pythons plot shows a spike at time 3 where mine doesn't match. I think it depends on how you are taking the derivative. Maybe in python since its array values it is taking derivatives more precisely with small intervals on the function so there is a derivative at 3 seconds. Therefore I think it is possible to match maybe by messing with how you spread your time range and steps. Maybe by making a step-size of 1.
+\newline
+
+\noindent 2. How does the correlation between the two plots (from Part 3 Task 4 and Part 3 Task 5)
+change if you were to change the step size within the time variable in Task 5? Explain why
+this happens.
+\newline
+
+ By shifting your step-size towards 1 it makes both graphs more identical. 
+
+\noindent 3. Leave any feedback on the clarity of lab tasks, expectations, and deliverables.
+\newline
+
+ I was just confuse if we could have made a couple subplots for Task 3 and not have a bunch of graphs. Another thing is on the time reverse it took me a while to know get it.Maybe an example shown would be helpful but that was just me. Aside from that it was straightforward but very long, hopefully because it was the first lab and figuring out latex. 
+
+
+
+
+
+
+
+
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
