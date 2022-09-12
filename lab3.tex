@@ -1,0 +1,256 @@
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 2%                                                       %
+% 9/4/21 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 3: Discrete Convolution}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to graph convolutions using a user define function created and comparing it with the built in function for convolution in Python.
+
+
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that was assigned was to use Lab 2 user defined functions for a step and ramp function and write the following functions and plot them in single figure.
+\[f_1(t)=u(t-2)-u(t-9)\] 
+\[f_2(t)=(e^-t)*u(t)\] 
+\[f_3(t)=r(t-2)-[u(t-2)-u(t-3)-u(t-4)]\] 
+Figure 1 shows the code that was used to plot the functions. It was simple enough since the user defined functions for step and ramp were already created in Lab 2 and therefore I just typed my equations and made them all as subplots to achieve one graph located in the results section. The tricky part was the exponential and how to call that in Python.
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=10
+cm]{Signals And Systems 1/Lab 3/codeforstep.png}
+\end{subfigure}
+\caption{Step and Ramp user functions Code}
+\label{fig:image2}
+\end{figure}
+
+
+
+\clearpage
+\subsection{Part 2}
+Part 2 was definitely the trickiest part. The task was to create a user define function in which it would perform the convolution of two functions $f_1(t)$ and $f_2(t)$. And then graph and compare with the in library convolution function.
+I started going the right path but in the for loops is where I got confused. Figure 2 shows the code the TA Kate provided us in achieving this convolution. The graphs are in the results section.
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=16
+cm]{Signals And Systems 1/Lab 3/covocode.png}
+\end{subfigure}
+\caption{Step and Ramp user functions Code}
+\label{fig:image2}
+\end{figure}
+
+I started off with creating a function named $my_conv$ that would accept two arrays or functions ultimately. I defined their lengths to $NF1$ and $Nf2$. Next I padded both arrays at the end with zeroes and made them both the same size. I then initialized $result$ to zero this would print out the result of two for loops needed in order to pull this off.
+\clearpage
+I then set a for loop that would iterate the length of both of the functions I passed earlier and initialized $result[i] $ to zero so each time it would iterate it would be to zero. Inside that for loop was another for loop that would take into account if the value of whats in both arrays is greater then 0 then multiply their values or essentially do the calculation for a convolution and return me that. The $except$ part on the code is to double check where you are screwing up and if that  condition in your second for loop is not met then print out what are the values restricting that.
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=15
+cm]{Signals And Systems 1/Lab 3/convocode1.png}
+\end{subfigure}
+\caption{ Cosine(x)}
+\label{fig2:image22}
+\end{figure}
+
+Figure 3 shows the plotting format code of the convolution after calling it and passing it the different functions mentioned earlier. What I had forgotten was that I needed a new time scale on my x-axis since that changed and that was defined as $tconvo$. This made sure I covered all of what was needed to show my convolution properly. Figure 3 also shows the convolution called using the in house function library and the results show that they both are identical. 
+
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/combination.png}
+\end{subfigure}
+\caption{ Combination of $f_1(t)$,$f_2(t)$,$f_3(t)$}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\subsection{Part 2}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/convof1.png}
+\end{subfigure}
+\caption{ Convolution of $f_1(t)$ and $f_2(t)$ }
+\label{fig2:image22}
+\end{figure}
+
+
+\newpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/convof2.png}
+\end{subfigure}
+\caption{ Convolution of $f_2(t)$ and $f_3(t)$}
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/convof3.png}
+\end{subfigure}
+\caption{ Convolution of $f_1(t)$ and $f_3(t)$ }
+\label{fig2:image22}
+\end{figure}
+
+\newpage
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/lib1.png}
+\end{subfigure}
+\caption{ Convolution of $f_1(t)$ and $f_2(t)$ using library function}
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/lib2.png}
+\end{subfigure}
+\caption{ Convolution of $f_2(t)$ and $f_3(t)$ using library function}
+\label{fig2:image22}
+\end{figure}
+
+
+\newpage
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 3/lib3.png}
+\end{subfigure}
+\caption{ Convolution of $f_1(t)$ and $f_3(t)$ using library function}
+\label{fig2:image22}
+\end{figure}
+\newpage
+\section{Questions}\label{sec:res}
+
+
+1. Did you work alone or with classmates on this lab? If you collaborated to get to the solution,
+what did that process look like?
+\newline
+I did collaborate with Skyler for guidance in setting up a new range on my time axis to graph my convolution. He pointed me in the right direction but ultimately I asked the TA for specific guidance instead. I really didn't work with anyone else after that except for the part the TA helped us with the convolution code, which it would have taken me a long time to figure out by myself.
+\newline
+2. What was the most difficult part of this lab for you, and what did your problem-solving process look like?
+\newline
+Interpreting the pseudo code, I had to look up in geeksforgeeks web-page on some of the pseudo code being given, in specific the initialization with zeroes to make the arrays the same length.
+\newline
+3. Did you approach writing the code with analytical or graphical convolution in mind? Why did you chose this approach?
+\newline
+With graphical because I am a visual learner most of the time.
+\newline
+4. Leave any feedback on the clarity of lab tasks, expectations, and deliverables.
+\newline
+It was straightforward but very hard, I really enjoyed the example given on convolution because it was graphical and that really helped me solidify with the in class portion of convolution. That was a great example, really showed what convolution means, graphically at least for me. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
