@@ -1,0 +1,209 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 4%                                                       %
+% 9/4/21 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 4: System Step Response Using Convolution}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to compute a systems step response as the forcing function and become familiar with convolution.
+
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that was assigned was to use Lab 3 user defined functions for a step function and write the following functions and plot them in a single figure.
+\[h_1(t)=(e^-2t)*[u(t-2)-u(t-3)]\] 
+\[h_2(t)=u(t-2)-u(t-6)\] 
+\[h_3(t)=cos(w_0*t)*u(t)\] 
+Figure 1 shows the code that was used to plot the functions. Where $w=2*pi*f$.  It was simple enough since the user defined functions for step were already created in Lab 2 and therefore I just typed my equations and made them all as subplots to achieve one graph located in the results section. 
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=10
+cm]{Signals And Systems 1/Lab 4/stepfunccode.png}
+\end{subfigure}
+\caption{Using Lab 2 Step function code}
+\label{fig:image2}
+\end{figure}
+
+
+
+\clearpage
+\subsection{Part 2}
+Part 2 task was to create a user define function in which it would convolve the functions created above with a unit step function. The unit step function would be a forcing function which the convolution of a random function with a step function is the integral of the random function.
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=16
+cm]{Signals And Systems 1/Lab 4/convostep.png}
+\end{subfigure}
+\caption{Using Lab 3 convolution code to convole with a step function}
+\label{fig:image2}
+\end{figure}
+
+Calling the convolution function from Lab 3 and passing it my "random" function $h$($t$) and step-function non-shifted. I then continued to graph that. It's important to know I multiply by the steps so my output wasn't as tall and was scaled down. The trickiest part here was setting your time axis to be proper. Since before the convolution the time axis was defined and spans from -10 to 10 or a range of 20. After the convolution my axis needs to be double to make room for the shifts that are made and will span from -20 to 20 or a range of 40 which therefore require a new time range. Therefore $tconvo$ is made and that way I am not plotting different ranges. This took me a while to grasp and was the most challenging task on this lab. The results of the convolution made with python are in Figure 6 under the result section.
+
+\noindent Continuing task 2 we were also assigned to integrate $h$($t$) by hand and plot those results and compare them as well. I continued to  solve by hand. Figure 3 and 4 shows the hand calculations and code to graph the hand calculations.
+. \[Equation 1 = .5[1-e^-2t]u(t)-.5[1-e^-2(t-3)]u(t-3)\] 
+\[Equation 2 = (t-2)u(t-2)-(t-6)u(t-6)\] 
+\[Equation 3 = (1/w)sin(wt)u(t)\] 
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=15
+cm]{Signals And Systems 1/Lab 4/tnc.jpg}
+\end{subfigure}
+\caption{ Solving integrals by hand}
+\label{fig2:image22}
+\end{figure}
+
+
+\clearpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=12
+cm]{Signals And Systems 1/Lab 4/handcode.png}
+\end{subfigure}
+\caption{ Code for hand calculation graphs}
+\label{fig2:image22}
+\end{figure}
+The code shows the plotting of the functions that were derived from the hand integrals. For the time-step I used the original with a range-span of 20 from -10 to 10 and plotted. The results are below. Both graphs match like they should.
+\clearpage
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 4/fiz1.png}
+\end{subfigure}
+\caption{ Combination of $h_1(t)$,$2_2(t)$,$h_3(t)$}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\subsection{Part 2}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 4/fiz2.png}
+\end{subfigure}
+\caption{  $h_1(t)$,$h_2(t)$,$h_3(t)$ step response }
+\label{fig2:image22}
+\end{figure}
+
+
+\newpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 4/fiz3.png}
+\end{subfigure}
+\caption{ Hand calculation graphs of $h_1(t)$,$2_2(t)$,$h_3(t)$}
+\label{fig2:image22}
+\end{figure}
+
+\section{Questions}\label{sec:res}
+
+The lab was straightforward after figuring out the time range axis needs to be the same for whatever you are plotting. I think stating the quantity number of graphs total needed in the deliverable overview would be helpful. A number given so we can double check we have the correct amount of graphs at least because I kind of got lost trying to find how many graphs we needed to have in our report but maybe it was just me. Aside from that everything was clear.
+
+
+
+
+
+
+
+
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
