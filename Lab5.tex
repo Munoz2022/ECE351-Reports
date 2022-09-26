@@ -1,0 +1,213 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 5%                                                       %
+% 9/22/22 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 5: Step and Impulse Response of an RLC Bamdpass Filter}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to compute an RLC system time-domain response to impulse and step inputs.
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that was assigned before the Lab began and that was to solve the Figure 1 circuit transfer function and time-domain impulse response. We then graph the time domain function using Python as well as the in built function from python and compare both graphs. They should be identical. 
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=9
+cm]{Signals And Systems 1/Lab 5/circ.png}
+\end{subfigure}
+\caption{RLC Circuit}
+\label{fig:image2}
+\end{figure}
+
+
+
+
+
+
+\[H(s) = \frac{\frac{1}{RC}s}{s^2+\frac{1}{RC}s + \frac{1}{LC}}\]
+\[h(t)=(1.036*10^e-4)*e^-5000t*sin(1.858*10^4t+105.1)*(u(t)\] 
+
+
+
+Solving for h(t) was found by using the sine method these are the equations used to calculate $h(t)$. The transfer function was found using nodal analysis at Vout.
+
+
+
+
+
+\[p = a +jw = \frac{-1}{2RC} ± \frac{1}{2}\sqrt{(\frac{1}{RC})^2 - 4(\frac{1}{LC})}\]
+\[|g| = \sqrt{[\frac{-1}{2}(\frac{1}{RC}^2)]^2+[\frac{1}{2RC}\sqrt{(\frac{1}{RC})^2-4(\frac{1}{LC})}]^2}\]
+\[∠g = tan^{-1}(\frac{\frac{1}{2RC}\sqrt{(\frac{1}{RC})^2-4(\frac{1}{LC})}}{\frac{-1}{2}(\frac{1}{RC})^2})\]
+\[h(t) = \frac{|g|}{w}e^{at}sin(wt + ∠g)u(t)\]
+
+These equations were derived with variable form but on the actual code I solved for $g,_<g,w$ and had them defined with actual constants which is a mistake if you want to use different values later on. I should have created a function which takes into account those variables and so therefore I could change my RLC values to anything. I also used my step function created in Lab 2 which the code refers to it in Figure 2.
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=14
+cm]{Signals And Systems 1/Lab 5/codeforhandimpulse.png}
+\end{subfigure}
+\caption{Code for impulse function by hand}
+\label{fig:image2}
+\end{figure}
+\clearpage
+After calculating the time impulse by hand I wrote a function called $handimpfunc$ as seen in Figure 2 to accept certain values. I then called the function and graphed time vs. output of the function. The graph can be found under the results section. I moved on to creating the impulse function but this time using the in house python function. The code is below.
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=14
+cm]{Signals And Systems 1/Lab 5/codeforinhouse.png}
+\end{subfigure}
+\caption{Code for impulse response by hand and using python}
+\label{fig:image2}
+\end{figure}
+
+
+Figure 3 shows the code to find the impulse function using python. I first created a matrix with the transfer function calculated by hand using Vout/Vin and nodal analysis at Vout. I then made the input as numerator and denominator and called $sig.impulse()$ and passed it my matrix along with my timerange. I then graphed that as well which can be found under the result sections. 
+
+
+\subsection{Part 2}
+Part 2 was to use built in python functions to create a unit step function and graph it and compare it to the results found in the impulse function by python. This was a very similar approach to finding the impulse response using python. Figure 3 has the code that was used to create the step function with Python $scipy.signal.step()$. The graph for the unit step function of the transfer function can be found under the results section. Along with this task the Final Value theorem needed to be used for $H_(s)u(s)$ in the Laplace domain. Below can be seen the theorem for the transfer function calculated for Figure 1.
+
+\[\lim_{t\to\infty}{f(t)} = \lim_{s\to0}[sF(s)]\]
+\[\lim_{s\to0}[sF(s)] = \lim_{s\to0}[s\frac{\frac{1}{RC}s}{s^2+\frac{1}{RC}s + \frac{1}{LC}}] = 0\]
+
+
+
+\clearpage
+
+
+
+
+
+
+
+\clearpage
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 5/impulsehand_impulsepython.png}
+\end{subfigure}
+\caption{ Combination of impulse and python time domain response}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\subsection{Part 2}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Signals And Systems 1/Lab 5/stepresp_transfer.png}
+\end{subfigure}
+\caption{  Step response of $H(s)u(s)$ }
+\label{fig2:image22}
+\end{figure}
+
+
+
+\section{Questions}\label{sec:res}
+
+
+1. Explain the result of the Final Value Theorem from Part 2 Task 2 in terms of the physical
+circuit components.\newline
+If their is no initial conditions on the inductor and capacitor then Vout must be zero as well which corresponds to the graphs starting at zero. Their is no initial current or voltage on the capacitor and they can't change instantaneously either. 
+
+\noindent 2. Leave any feedback on the clarity of the expectations, instructions, and deliverables.\newline
+\noindent It was straightforward and did not have any problems I think.
+
+
+
+
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
