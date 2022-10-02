@@ -1,0 +1,294 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 6%                                                       %
+% 9/29/22 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 6: Partial Fraction Expansion}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to use the in built house function $scipy.signal.residue()$ to perform partial fraction expansion.
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that was assigned before the Lab began and that was to solve $y(t)$ fot a step input using partial expansion.
+\[y''(t) + 10y'(t) + 24y(t) = x''(t) + 6x'(t) + 12x(t) \]
+
+
+The solution was found by taking it to the Laplace domain and then computing partial fraction expansion by hand. What was obtain is below.
+\[y(t) = (\frac{1}{2} -\frac{1}{2} e^{-4t} + e^{-6t})u(t)\]
+
+I then move to the first two actual tasks which were to plot the step response of the above equation and then use $scipy.signal.residue()$ function to perform partial fraction expansions on the S-domain and compare both results.
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=9
+cm]{Signals And Systems 1/Lab 6/task1a.png}
+\end{subfigure}
+\caption{Code for graphing the hand solved step function}
+\label{fig:image2}
+\end{figure}
+\clearpage
+
+
+
+
+
+Figure 1 has the code to graph the hand solved step function found. It is a function being passed the time range and computing the output. I then graphed it and the graph can be found under the results sections. It is important to note that inside the function I am calling another function $stepfunc()$ and that is due to a previous function that I have been using a lot from Lab 2. I continued with task 2 and the code for implementing it is Figure 2.
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=13
+cm]{Signals And Systems 1/Lab 6/task2.png}
+\end{subfigure}
+\caption{Code for using $scipy.signal.step()$}
+\label{fig:image2}
+\end{figure}
+
+Similar to Lab 5  i created a coefficient matrix of the numerator and denominator of the transfer function found earlier from the differential equation above. Lines 73-75 have the coefficients. I then passed it to another matrix and called the in house function $scipy.signal.step()$ and passed it the numerator and denominator as well as the time range. Th function is suppose to give me the step response. I then compared it to the my hand calculated and they were equivalent. The result for the graph using the in house function can be seen under the result sections.
+
+\clearpage
+
+
+\noindent Task 3 consisted in finding the "convolution" with the step function but using $scipy.signal.resdiue()$. In the Laplace domain a convolution turns into a multiplication between the transfer function and step function. Therefore a $1/s $ term is multiplied with my regular transfer function and now the coefficients change a little and a new numerator and denominator need to be passed to $sig.residue()$. 
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=11
+cm]{Signals And Systems 1/Lab 6/task3.png}
+\end{subfigure}
+\caption{Code for using $scipy.signal.residue()$}
+\label{fig:image2}
+\end{figure}
+
+As seen in Figure 3 my coefficients change do the $1/s$ multiplication and now I have a zero as the place holder of my constant for the denominator.
+I passed the numerator and denominator to $sig.residue()$ and had it give me the roots, poles and residue of the given terms. This comes handy because instead of solving by hand like I did earlier it solves it for me. Comparing the results to the partial expansion are under the result sections they match to what I calculated by hand earlier.
+
+
+
+
+\subsection{Part 2}
+Part 2 was to use $scipy.signal.residue()$ to perform partial fraction expansion on the function below since by hand it would be
+difficult to analyze.
+
+\[y^5(t)+18y^4(t)+218y^3(t)+2036y^2(t)+9085y^1(t)+25250y(t) = 25250x(t)\]
+Below in figure 4 is the code used to solve the function.
+
+\clearpage
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=16
+cm]{Signals And Systems 1/Lab 6/task4.png}
+\end{subfigure}
+\caption{Code for using $scipy.signal.residue()$ on new function}
+\label{fig:image2}
+\end{figure}
+
+
+
+
+
+
+I proceeded with solving for the transfer function which was easily done and created a numerator and denominator matrix that I passed on to $scipy.signal.residue()$. I printed out the roots, poles, residue of the terms. and then proceeded to use the cosine method to plot out the results.
+Defining the cosine function is important to notice that $scipy.signal.residue()$ gives out the roots of the cosine method since it is doing partial fraction already. All you have to do is add the repeated terms by a loop and build the function given since were using the cosine method, this took me a while to grasp. Lastly I needed to verify using the $scipy.signal.step()$. FIgure 5 has the code to do so.
+
+
+\clearpage
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=12
+cm]{Signals And Systems 1/Lab 6/tt.png}
+\end{subfigure}
+\caption{Code for using $scipy.signal.residue()$}
+\label{fig:image2}
+\end{figure}
+It is important to note that a new denominator array was formed because we are calling the in house function $scipy.signal.step()$ which is already taking into account the multiplication of the step function so the denominator array changes I then graphed it and its graph can be found under the result section of this lab.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 6/p1.png}
+\end{subfigure}
+\caption{ Step input solved by hand}
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 6/p2.png}
+\end{subfigure}
+\caption{ Verifying using $scipy.signal.step()$ }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=2
+cm]{Signals And Systems 1/Lab 6/r1.png}
+\end{subfigure}
+\caption{ Verifying the roots, poles,residue using $scipy.signal.residue()$ }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+\subsection{Part 2}
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 6/p3.png}
+\end{subfigure}
+\caption{ using $scipy.signal.residue()$ on part 2 }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{Signals And Systems 1/Lab 6/p4.png}
+\end{subfigure}
+\caption{ Verifying using $scipy.signal.step()$ }
+\label{fig2:image22}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=5
+cm]{Signals And Systems 1/Lab 6/r2.png}
+\end{subfigure}
+\caption{ Verifying the roots, poles,residue using $scipy.signal.residue()$ }
+\label{fig2:image22}
+\end{figure}
+
+
+
+
+
+
+
+\section{Questions}\label{sec:res}
+
+
+1. For a non-complex pole-residue term, you can still use the cosine method, explain why this
+works.\newline
+Because if it is not complex it will cancel out at $cosine(o)$ when it is being evaluated leaving just real components. Which your left with  whatever is in front of the cosine term's since cosine goes to 1 at $cos(0)$.
+
+\noindent
+2. Leave any feedback on the clarity of the expectations, instructions, and deliverables.\newline
+
+\noindent
+I was just confused on the cosine method for a while and the in house function $scipy.signal.residue()$. They are the same really but I was just mixing up poles vs roots. I was also mixing up the equation the cosine method produces. But once I figure it out I think I understood the lab better. We touched on the cosine method briefly and used the sine method much more in class which is why I was having a hard time understanding it.
+
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
