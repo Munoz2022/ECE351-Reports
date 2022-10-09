@@ -1,0 +1,254 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 7 %                                                       %
+% 10/06/22 %                                                    %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 7: Block Diagrams and System Stability}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to use block diagrams and use the transfer functions factor forms to say if a system is stable or not. 
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task was to solve manually for the poles and zeroes of the given functions and factor them nicely.
+\[G(s) = (\frac{s+9}{(s^2-6s-16)(s+4)} \]
+\[A(s) = (\frac{s+4}{(s^2+4s+3)} \]
+\[B(s) = s^2+26s+168 \]
+%\[y''(t) + 10y'(t) + 24y(t) = x''(t) + 6x'(t) + 12x(t) \]
+
+The factorization of them along with their poles and zeroes is below.
+\[G(s) = (\frac{s+9}{(s-8)(s+2)(s+4)} \]   G(s) Poles: 8,-2,-4 and Zeroes: -9
+\[A(s) = (\frac{s+4}{(s+1)(s+3} \]  A(s) Poles: -1,-3 and Zeroes: -4
+\[B(s) = (s+12)(s+14) \]   B(s) Poles: does not have any and Zeroes: -14,-12.
+ 
+
+ 
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=5
+cm]{b.png}
+\end{subfigure}
+\caption{Block Diagram}
+\label{fig:image2}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=22
+cm]{ty.png}
+\end{subfigure}
+\caption{Code for verifying zeroes,poles, and plotting open loop}
+\label{fig:image2}
+\end{figure}
+\clearpage
+
+Figure 2 shows making $num1,num2$ for $G(s)$ as the numerator and denominator array I continued in the same manner for $A(s)$ and $B(s)$. Since $B(s)$ was a little different I had to use $np.roots$ to find it's zeroes. I then continued and moved onto finding the open loop transfer of the diagram provided. Below is the open loop Transfer function.
+
+
+\[ \frac{Y(s)}{G(s)} = (\frac{s+9}{(s-8)(s+2)(s+4)}\frac{s+4}{(s^2+4s+3)} \]   
+
+Looking at Figure 2 I convoluted it with the step response input and obtain a graph which can be found in the result sections for the open loop transfer function. It is important to notice that my open loop coefficient are simplified on Figure 2 line 3 and 4 because of the s+4 cancels out.
+
+
+
+\subsection{Part 2}
+Part 2 was to find the open loop transfer function and then use the same method in part 1 to graph. Below is the symbolic way I found out the open transfer function. The important point in this section was the way you found your numerator and denominator Figure 3 shows the code for implementing these tasks.
+
+\[ \frac{Y(s)}{G(s)} = (\frac{(num1)(num2)}{(den2)(den1)+(den2)(num1)(Barray)} \]   
+
+
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=9.5
+cm]{code2.png}
+\end{subfigure}
+\caption{Code for open loop}
+\label{fig:image2}
+\end{figure}
+
+
+
+
+
+
+\clearpage
+As seen in Figure 3 I called the arrays and using the open loop transfer function I convoluted their respected numerators and denominators. Since I have three terms in the denominator I did a convolution of one and then used its results to convoluted it with the remaining one. Then I graphed it using the same method as Part 1, which the graph can be found under the result sections.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{p1.png}
+\end{subfigure}
+\caption{ Open Loop Graph}
+\label{fig2:image22}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.6\linewidth, height=3
+cm]{r1.png}
+\end{subfigure}
+\caption{ Verifying the poles and zeroes }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+\subsection{Part 2}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{p2.png}
+\end{subfigure}
+\caption{ Close Loop Graph}
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=3
+cm]{den.png}
+\end{subfigure}
+\caption{ Showing the numerator and denominator using python }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+\clearpage
+
+
+
+
+
+
+
+\section{Questions}\label{sec:res}
+
+1. In Part 1 Task 5, why does convolving the factored terms using scipy.signal.convolve()
+result in the expanded form of the numerator and denominator? Would this work with your
+user-defined convolution function from Lab 3? Why or why not? \newline
+
+\noindent  I think since in Laplace domain convultion is multiplication and so the program just multiplies and prints out the results. I don't think it would work because it is not in the Laplace domain yet.
+
+2. Discuss the difference between the open- and closed-loop systems from Part 1 and Part 2.
+How does stability differ for each case, and why? \newline 
+\noindent In open loop the negative feedback is gone and a different transfer function is produced with different poles in the denominator meaning different stability then in the closed loop which everything is taken into account and stability could change or not.
+
+3. What is the difference between scipy.signal.residue() used in Lab 6 and
+scipy.signal.tf2zpk() used in this lab?\newline
+\noindent Residue would determine only partial fraction expansion and tf2zpk does only factoring polynomials.
+
+4. Is it possible for an open-loop system to be stable? What about for a closed-loop system to
+be unstable? Explain how or how not for each. \newline
+\noindent Yes I think so, one way to check is to see the denominator weathered it is positive poles meaning it is stable or just negative poles meaning unstable. 
+
+5. Leave any feedback on the clarity/usefulness of the purpose, deliverables, and expectations
+for this lab. \newline
+I wasn't sure were to answer some of the questions that were given throughout the tasks, so I answered them below.
+
+For part 1 deliverable 3 The function was not stable due to a negative root in the denominator and the graph approves since it is an exponential and will continue to accumulate more to the right as time goes on, little by little but still advance to the right forever, making it unstable. 
+
+For part 2 deliverable 2 it is stable because looking at the graph it is reaching a steady state at some point.
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
