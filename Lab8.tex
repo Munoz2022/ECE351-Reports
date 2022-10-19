@@ -1,0 +1,207 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 8 %                                                       %
+% 10/12/22 %                                                    %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 7: Fourier Series Approximation of a Square Wave}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to use Fourier Series to approximate periodic time-domain signals.
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first prelab task was to solve the Fourier series of Figure 1 using these equations. 
+
+\[x(t) = \frac{1}{2}a_0+\sum_{n=1}^{\infty}a_kcos(w_0t)+b_ksin(kw_0t)\]
+\[a_k = \frac{2}{T}\int_{0}^{T}x(t)cos(kw_0t)dt\]
+\[b_k = \frac{2}{T}\int_{0}^{T}x(t)sin(kw_0t)dt\]
+\[w_0 = \frac{2\pi}{T}\]
+Realizing since this is an odd function  $a_k$ and $a_0$ is zero and only $b_k$ needs solved. 
+\[a_k = 0\]
+\[b_k = \frac{2}{k\pi}[1-cos(k\pi)]\]
+\[x(t) = \sum_{n=1}^{\infty}b_ksin(kw_0t)\]
+
+ 
+ 
+ 
+ 
+ 
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=5
+cm]{fser.png}
+\end{subfigure}
+\caption{Block Diagram}
+\label{fig:image2}
+\end{figure}
+\clearpage
+
+The first task was to solve for $a_k$ and $b_k$ explicitly and obtain values. Figure 2 shows the code for doing so.
+ 
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=16
+cm]{tk1.png}
+\end{subfigure}
+\caption{Block Diagram}
+\label{fig:image2}
+\end{figure}
+
+I made a function to print out the values of $b_k$ at k=  1,2 and 3. This was straightforward and the challenging part was whether or not $b_k$ was found correctly in the pre-lab. The confirmation of the values can be found under the result section. 
+
+I then moved to task 2 and it was to plot the Fourier of Figure 1 at different k values. The code is in Figure 3 below. This was tricky because I ran into a few problems doing so.
+\clearpage
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=16
+cm]{forier.png}
+\end{subfigure}
+\caption{Block Diagram}
+\label{fig:image2}
+\end{figure}
+
+As can be seen I ultimately left everything in variables for $w$ and $T$. I then wrote the for loop to encapsulate both the $b_k$ term with the Fourier and obtain that expression. I then called the function and passed it the time x-axis and the number of iterations I wanted it to add. The issue came with line 66 and having $range(1,k+1)$ instead of $range(1,k)$ because this produces and error and your not starting at them same place. Aside from that it worked fine. The plots for different $k$ values are found in the result section.
+
+
+\clearpage
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.6\linewidth, height=3
+cm]{ver.png}
+\end{subfigure}
+\caption{ Verifying the $b_k$ and $a_k$ terms  }
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=10
+cm]{plo1.png}
+\end{subfigure}
+\caption{ Results of $k=1,3,15$ }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=10
+cm]{plo2.png}
+\end{subfigure}
+\caption{ Results of $k=50,15,1500$ }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+
+
+
+
+\section{Questions}\label{sec:res}
+
+1. Is x(t) an even or an odd function? Explain why. \newline
+
+\noindent  It is an odd function because it looks like a sine and sine is an odd function.
+
+\noindent 2. Based on your results from Task 1, what do you expect the values of a2, a3, . . . , an to be?
+Why? \newline 
+\noindent 0 because its on going forever and it's always going to be an odd function.
+
+\noindent 3. How does the approximation of the square wave change as the value of N increases? In what
+way does the Fourier series struggle to approximate the square wave?\newline
+\noindent The more iterations the close it looks like the square wave. The value evaluated for example inputting an x term or number of iterations into the sine and cosine outputs a y value that the more the iterations are the closer they are hence the flatter the top of the square wave it is.
+
+\noindent 4. What is occurring mathematically in the Fourier series summation as the value of N increases?. \newline
+\noindent The frequency increases meaning less variation between the rising and decreasing of the wave or a flatter top meaning a good perfect square approximation.
+
+\noindent 5. Leave any feedback on the clarity of lab tasks, expectations, and deliverables. \newline
+It was straightforward I think.
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
