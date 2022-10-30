@@ -1,0 +1,268 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 9 %                                                       %
+% 10/27/22 %                                                    %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 9: Fast Fourier Transform}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to create a user define function to do a Fast Fourier Transfor (FFT). 
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first part of the lab was to use the code provided in Figure 1 to create the fast Fourier transform.
+
+
+ 
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=5
+cm]{precode.png}
+\end{subfigure}
+\caption{Pre code given to complete the lab}
+\label{fig:image2}
+\end{figure}
+Even thought this code was not complete it served as a basis to creating a user define FFT which was really helpful. There are three main functions that will need to be plotted and they are below.
+
+\[x(1)=cos(2*\pi*t)\]
+\[x(2)=5sin(2*\pi*t)\]
+\[x(3)=2*cos((2*\pi*t)-2)+sin^2((2*\pi*6*t))\]
+There is a fourth and it will be labs 8 square function approximated at a specific k value and period.
+
+
+\clearpage
+First I began with creating the inputs to the function $myfft(x,fs)$. As can be seen in the code for figure 2. I then made it return $freq, X_(mag),X_(phi)$. For the first task the first function that needed to be plot was $cos(2*pi*t)$ using a time range of 2 seconds along with an frequency sample of 100. 
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1.1\linewidth, height=12
+cm]{codeunclean.png}
+\end{subfigure}
+\caption{User defined FFT unclean version}
+\label{fig:image2}
+\end{figure}
+I then called the function in lines 55-57 and passed it task 1 function and the frequency samples and made all of this equal to the frequency, magnitude and phase of the $fft$ user define function. Task 1 also said to plot here it was a little different as can be seen in Figure 2 when using time to plot a normal $plt.plot $ works but when you introduce frequency you need to use $plt.stem$.
+
+
+\clearpage
+Figure 3 shows the plotting of task 1 and how to go about it.
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=16
+cm]{codeplotuncleantask1.png}
+\end{subfigure}
+\caption{User defined FFT unclean version}
+\label{fig:image2}
+\end{figure}
+
+As can be seen the plotting of $x1$ which is just $cos(2*pi*t)$ is straightforward and does not need any special plotting technique. Moving to plotting $frequency$ vs $magnitude $ we need to use $plt.stem$. This is repeated because it is asked to limit the $x-axis $ to an adequate window [-2,2]. Therefore for the $magnitude $ and $phase$ there are doubles with limited windows to focus better. The same process is used to graph the rest of the equations presented earlier which correspond to Task 2 and 3. This leaves task 4 which is described below.
+\clearpage
+
+
+ In task 4 we needed to make the FFT cleaner in short. We do this by limiting the phase elements of to a certain value. Figure 4 shows the $myfft2$ which is the same user define FFT used earlier but with an if statement to restrict phases at a certain number and not show them. In this case the value that will not be accepted is $1e-10$.
+ 
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1.1\linewidth, height=12
+cm]{cleancode.png}
+\end{subfigure}
+\caption{User defined FFT clean version}
+\label{fig:image2}
+\end{figure}
+As seen in Figure 4 if the magnitude is less then the specific value we make the phase equal 0 if not then we continue normally.
+Doing so the same plotting technique is repeated like figure 3 and the graphs are shown in the result section. Lastly Task 5 is done in a similar way except this time we are going to use a square wave as our input. The square wave is going to be Lab's 8 which we approximated with a certain period and K number. Below is the code used from Lab 8 with a few changes in the inputs.
+\clearpage
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=9
+cm]{t5.png}
+\end{subfigure}
+\caption{Using Lab 8 square wave approximation code}
+\label{fig:image2}
+\end{figure}
+As can be seen in Figure 5 the code approximate the square wave at an period and K value or iteration. In this task k=15 and everything else stay the same with a time span of 16 instead this time. The same approach was used as the different functions used earlier by passing this square wave into the clean FFT which is the $myfft2$ the one with the if statement. This same approach was used in solving the first three input signals.  Also the same approach to graphing the frist three inputs talked earlier about was used to graph. A total of 35 graphs were constructed.
+ 
+ \clearpage
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{1.png}
+\end{subfigure}
+\caption{ Cos(2\pi t) unreadable  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{2.png}
+\end{subfigure}
+\caption{ 5sin(2\pi t) unredabale }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{3.png}
+\end{subfigure}
+\caption{ 2*cos((2*\pi*t)-2)+sin^2((2*\pi*6*t)) unreadable  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{4.png}
+\end{subfigure}
+\caption{ Cos(2\pi t)  readable }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{5.png}
+\end{subfigure}
+\caption{  5sin(2\pi t) readable }
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{6.png}
+\end{subfigure}
+\caption{ 2*cos((2*\pi*t)-2)+sin^2((2*\pi*6*t)) readable }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.8\linewidth, height=8
+cm]{7.png}
+\end{subfigure}
+\caption{ Approximation of Lab's 8 square wave readable }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+\section{Questions}\label{sec:res}
+
+1.  What happens if fs is lower? If it is higher? fs in your report must span a few orders of
+magnitude. \newline
+
+\noindent  If fs is lower then the period is bigger if fs is higher then the period is smaller. A larger period or repetition of the wave means more approximations needed to get a good picture of it.
+
+\noindent 2. What difference does eliminating the small phase magnitudes make? \newline 
+\noindent We might not care about the small spikes in our graph so eliminating them help us see the important points.
+
+\noindent 3. Verify your results from Tasks 1 and 2 using the Fourier transforms of cosine and sine.
+Explain why your results are correct. You will need the transforms in terms of Hz, not rad/s.
+For example, the Fourier transform of cosine (in Hz) is:
+F{cos(2πf0t)}= 1/2 [δ (f −f0) + δ (f + f0)]\newline
+\noindent For task one it becomes 1/2 [δ (f −1) + δ (f + 1)] which match my graph for task 1 occurring at x=1 and x=2.
+
+
+
+\noindent 4. Leave any feedback on the clarity of lab tasks, expectations, and deliverables. \newline
+It was straightforward I think.
+
+
+
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
