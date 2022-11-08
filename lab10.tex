@@ -1,0 +1,268 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 10%                                                       %
+% 11/06/22 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 10: Frequency Response}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to become familiar with frequency response tool and Bode plots using Python. 
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that was assigned before the Lab began and that was to solve the below transfer function for  the magnitude and phase by hand. 
+
+\[H(s) = \frac{\frac{1}{RC}s}{s^{2} + \frac{1}{RC}s + \frac{1}{LC}}\]
+\[|H(j\omega)| = \frac{\frac{\omega}{RC}}{\sqrt{(\frac{1}{LC} - \omega^2)^{2} + (\frac{\omega}{RC})^{2}}}\] \[\angle H(j\omega) = 90\degree- tan^{-1}(\frac{\frac{\omega}{RC}}{\frac{1}{LC}-\omega^2})                   \]
+
+
+
+
+The solving was done by inserting $jw $ into the $s$ domain and the rest is algebra. After doing so we needed to plot the expression of the magnitude and phase into python. As can be seen from the figure 1 below for the code. The expression above was typed in python and assigned to $ymag$ then it was converted to a dB scaled on line 49. To plot this results $plt.semilogx$ was used instead of a regular $plt.plot$ because we were plotting in logarithmic axis. A similar approach to the phase expression except it needed some adjustments to when it came to solving for the angle. A for loop is implemented to match my results. After doing so I plotted both expressions and plots can be foudn under the results section.
+
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=18
+cm]{part1.png}
+\end{subfigure}
+\caption{Code for magntitude and phase of trasnfer function}
+\label{fig:image2}
+\end{figure}
+
+
+
+
+\clearpage
+
+After the first task was completed I moved onto using in house called functions to plot the magnitude and phase frequency response of the transfer function above and compare that with figure 1 code results. They should be identical because we are doing the same exact thing again. 
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=12
+cm]{task2.png}
+\end{subfigure}
+\caption{Code for magntitude and phase of trasnfer function using $sig.bode$}
+\label{fig:image2}
+\end{figure}
+
+As can be seen in figure 2 I needed and array with the coefficient of the expressions of magnitude and phase and passed it to $sig.bode$ along with the x-axis and it will generate the magnitude and phase functions and I can plot. SO the in house function generates three things as can be seen in line 86. I then plot it using $plt.semilogx$ and the plots can be found under the result section below.\newline
+
+\noindent For the last task in part 1 we want the frequency response with respect to Hz not rads/sec. We also could want a specific frequency we want to look at. This part of the code was provided and all we really had to do is pass it the numerator and denominator coefficients. Then it would generate a nice bode plot for us. The code is Figure 3 below..
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=4
+cm]{t3.png}
+\end{subfigure}
+\caption{Code for plotting a bode plot nicely}
+\label{fig:image2}
+\end{figure}
+
+
+\subsection{Part 2}
+Part 2 was to filter a signal given below, and to pass it through the RLC circuit. In order to do that it needed to be converted into it's z-domain equivalent using $scipy.signal.bilinear()$ and then finally $scipy.signal,lfilter()$. Below is the code in doing so.
+
+\[X(t) = {cos(2\pi100t) + cos(2\pi3024t) + sin(2\pi50000t) } \]
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=9.5
+cm]{p2.png}
+\end{subfigure}
+\caption{Code for filtering x(t) signal}
+\label{fig:image2}
+\end{figure}
+Setting the sampling frequency high enough to capture all three frequencies of the signal and a step size of 1/frequency was used. Bilinear generated to parameters which were used in the lfilter function along with the signal. Both plots before the filter and after the filtering are shown under the result sections.
+
+\clearpage
+
+
+
+
+
+
+
+\clearpage
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q1.png}
+\end{subfigure}
+\caption{ Part 1 Task 1  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q2.png}
+\end{subfigure}
+\caption{ Part 1 Task 1 }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q3.png}
+\end{subfigure}
+\caption{ Part 1 Task 2 }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q4.png}
+\end{subfigure}
+\caption{ Part 1  Task 2 }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q5.png}
+\end{subfigure}
+\caption{ Part 1 Task 3 }
+\label{fig2:image22}
+\end{figure}
+
+
+\clearpage
+
+\subsection{Part 2}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q6.png}
+\end{subfigure}
+\caption{  Part 2 task 1 }
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{q7.png}
+\end{subfigure}
+\caption{ Part 2 Task 4 }
+\label{fig2:image22}
+\end{figure}
+
+\clearpage
+
+\section{Questions}\label{sec:res}
+
+
+1. Explain how the filter and filtered output in Part 2 makes sense given the Bode plots from
+Part 1. Discuss how the filter modifies specific frequency bands, in Hz.
+\newline The filter is cutting all those higher outputs and only narrowing from -1 to 1 in height which result in what we see in the bode plot for the output after filtering the signal.
+
+
+\noindent 2. Discuss the purpose and workings of
+scipy.signal.bilinear() and scipy.signal.lfilter().
+\newline
+\noindent One converts the numerator and denominator along with the axis to a z domain and the other actually does the filtering.
+
+
+
+\noindent 3. What happens if you use a different sampling frequency in scipy.signal.bilinear() than
+you used for the time-domain signal?
+\newline
+\noindent You would see different samples and not the ones you actually are itnersted in.
+
+\noindent4. Leave any feedback on the clarity of lab tasks, expectations, and deliverables.\newline
+\noindent It was straightforward I think.
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
