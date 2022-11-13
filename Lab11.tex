@@ -1,0 +1,247 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 11%                                                       %
+% 11/10/22 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 11: Z - Transform Operations}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is analyze discrete systems using Python's build -in-functions and a function developed by Christopher Felton. 
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The first task that began with solving for the transfer function of the $y[k]$ and to begin to do so we need to take the z-transform of it and then solve for $Y[Z]/X[Z]$ which is output over input but in the z-domain. This way we can get the transfer function. Then we can take the inverse transform and go back to $h[k]$ and using partial fraction find the coefficients. 
+
+\[Y(k) = 2x[k]-40x[k-1]+10y[k-1]-16[k-2]\]
+I then take $y[k]$ function to the z domain, $Y[Z]$.
+\[Y(Z) = 2X[Z]-40Z^{-1}X[Z]+10Y[Z]Z^{-1}-16Z^{-2}Y[Z]\]
+Doing algebra and rearranging for $Y[Z]/X[Z]$ or the transfer function I obtain.
+\[H[Z]=\frac{Y[Z]}{X[Z]} = \frac{3Z^{2}-40Z}{Z^{2}-10Z+16}\]
+Now to find  $h[k]$ by partial fraction expansion I factor out a Z from the numerator and factor everything that could be factor.
+\[\frac{H[Z]}{Z} = \frac{2(z-20)}{(Z-8)(Z-2)}=\frac{A}{Z-8}+\frac{B}{Z-2}\]
+Doing algebra once again I obtained A=-4, and B =6. Plugging them back in I obtained the following H(Z).
+\[\frac{H[Z]}{Z} = \frac{-4}{Z-8}+\frac{6}{Z-2}\]
+Lastly taking the inverse of the z transform to obtain h[k] I get this function:
+\[h[k] = (-4*8^{k}+6*2^{k})*u[k]\]
+To find the explicitly algebra and steps I have attached a by hand solution that show the steps taken more in detail to obtain the following functions. They are under the result section of this lab report.
+\clearpage
+
+
+
+
+Moving onto task 3 of the lab it was to verify our partial fraction expansion with $scipy.signal.residuez()$ below is the code done to do so.
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=8
+cm]{p1.png}
+\end{subfigure}
+\caption{Code for verifying the poles, roots, and k values of the transfer function}
+\label{fig:image2}
+\end{figure}
+
+As can be seen making an array of the coefficients only and using $sig.residue$ to verify was straightforward since we have done so in other previous labs. The verification numbers can be seen in the result section of this lab report. Task 5 was to use the function $zplane()$ given to verify our partial fraction expansion that was done. Since the zplane() function was given all we needed to do was call it and have three letters that would take the return of $Zplane()$ and then print those outputs. Again a very similar approach to the previous task since we are verifying the pole-zeroe plot the verification is under the resul section along with the zplot graphs.\clearpage
+
+
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=23
+cm]{p2.png}
+\end{subfigure}
+\caption{Code for verifying the poles, roots, and k values of the transfer function using the $zplane() $ function}
+\label{fig:image2}
+\end{figure}
+
+\clearpage
+
+Laslty we needed to use $scipy.signal.freqz()$ to plot the magnitude and phase response of $H(Z)$.
+
+
+\begin{figure}[h]
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=13
+cm]{p3.png}
+\end{subfigure}
+\caption{Code for using $scipy.signal.freqz()$}
+\label{fig:image2}
+\end{figure}
+
+Here the in house function returns the frequency in radians per second and the magnitude complex. transforming it to a frequency of Hz because this is America, and dB scale of magnitude we obtain the following graphs in the result section. 
+
+
+
+\clearpage
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=3
+cm]{v1.png}
+\end{subfigure}
+\caption{ Verifying the partial fraction coefficients  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{v2.png}
+\end{subfigure}
+\caption{ pole-zero plot for $H(z)$ }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=3
+cm]{v3.png}
+\end{subfigure}
+\caption{ Actual zero confirmations of $H(z)$ }
+\label{fig2:image22}
+\end{figure}
+
+
+
+\clearpage
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=6
+cm]{v4.png}
+\end{subfigure}
+\caption{ magnitude vs HZ }
+\label{fig2:image22}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=6
+cm]{v5.png}
+\end{subfigure}
+\caption{ phase vs HZ }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=12
+cm]{picz.jpg}
+\end{subfigure}
+\caption{ Derivation of z transforms task 1-2 }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+
+
+
+
+\section{Questions}\label{sec:res}
+
+
+1. Looking at the plot generated in Task 4, is H(z) stable? Explain why or why not.
+
+\newline It is not stable because there is a zero in the positive side of the graph.
+
+
+
+
+\noindent2. Leave any feedback on the clarity of lab tasks, expectations, and deliverables.\newline
+\noindent It was straightforward I think.
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
