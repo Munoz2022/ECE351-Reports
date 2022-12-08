@@ -1,0 +1,498 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %                                                            %         
+% Isaias Munoz Venegas %                                       %
+% ECE 351 %                                                    %
+% Lab 12%                  Final project                                     %
+% 17/07/22 %                                                     %
+% Any other necessary information needed to navigate the file  %
+% %                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} 
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\widowpenalty 10000
+\clubpenalty 10000
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{lipsum}
+\begin{document}
+%===========================================================
+\begin{titlepage}
+\begin{center}
+% Top 
+\includegraphics[width=0.55\textwidth]{cut-logo-en}~\\[2cm]
+% Title
+\HRule \\[0.4cm]
+{ \LARGE 
+  \textbf{Project Report for ECE 351}\\[0.4cm]
+  \emph{Lab 12: Filter Design}\\[0.4cm]
+}
+\HRule \\[1.5cm]
+% Author
+{ \large
+  Isaias Munoz  \\[0.1cm]
+  \today\\[0.1cm]
+  %#\texttt{user@cut.ac.cy}
+}
+\vfill
+\textsc{\Large University of Idaho}\\
+\\
+% Bottom
+%{\large \today}
+ 
+\end{center}
+\end{titlepage}
+%\begin{abstract}
+%\lipsum[1-2]
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\end{abstract}
+\newpage
+%===========================================================
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\setcounter{page}{1}
+%===========================================================
+%===========================================================
+\section{Introduction}\label{sec:intro}
+
+The purpose of this lab is to apply the awesome Python skills developed through the previous labs to filter out a noisy signal within given paramters and present it in a professional manner.
+
+%\section{Equations}\label{sec:lit-rev}
+
+
+
+
+\section{Methodology}\label{sec:meth}
+\subsection{Part 1}
+The problem statement consisted of the student supposedly working for an aircraft company on a positioning control system that controls the position of the landing for their aircraft. this positioning system requires a feedback signal from a position center. The good information frequency is contained within 1.8 kHz to 2 kHz. There is however unwanted frequencies below 1.8khz that we want to get rid of that are due from the building's ventilation system. There is also high frequencies from the switching amplifier to the ground connection. To begin I needed to import the CSV file that contains the noisy signal from an oscilloscope and to plot it. 
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=12
+cm]{noisysig.png}
+\end{subfigure}
+\caption{ Code for plotting noisy signal and my FFT}
+\label{fig2:image22}
+\end{figure}
+
+
+
+
+\clearpage
+
+As can be seen in Figure 1 the plotting the noisy signal was relatively straightforward and the graph is under the results section. Next I needed to find the values or magnitudes in which the noisy signals occurred. I went about this by doing  a Fast Fourier Transform (FFT). This will show me the different frequencies in which these noisy frequencies happen again classifying them in three different regions, low, center, and high frequencies. As seen in figure 1 I used Lab 9 code to do the FFT. Line 77 calls the FFT and returns the frequencies, magnitudes and phase angles. Next I will be able to split the three regions I am interested in and see where the mos occurrences of them ocurre so then I can narrow what to eliminate. Figure 2 has the plot for calling the FFT graphs at specific intervals. Figure 2 shows one example showing the FFT of the whole noisy signal. I did this with frequencies for 0-1.6 kHz and 1.6-2.2 kHz and finally 2.2 - 100 kHz. Again these correspond to the low frequencies, the middle range spectrum which we want to filter everything else but that and the high frequencies. 
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=12
+cm]{fftall.png}
+\end{subfigure}
+\caption{ Code for plotting the FFT of noisy signal}
+\label{fig2:image22}
+\end{figure}
+
+Figure 2 shows the function that was provided to make stem graphs easier and was used accordingly. Figure 2 also shows the FFT graph of the noisy signal given. What it does not show is that in order to show specific x-axis ranges I needed and x-limit[] of such and such and that would narrow my window. After seeing the occurrences at certain frequencies I had to design a circuit to combat unwanted frequencies and only keep what is in the middle. 
+
+
+
+
+
+
+
+
+
+
+\subsection{Part 2}
+Part 2 had to come up with a circuit to kill unwanted frequencies between a range of frequencies. This means a band-pass filter because There is certain frequencies in the middle I wanna keep and therefore a series RLC band-pass circuit was chosen. Also because the series RLC were on my 212 circuit notes with its appropriate equations. At the end of this section there is scratch work of actually coming up with the appropriate values. Here is a rundown of solving for them. After all we want the range of 1.8 - 2.0 kHz to be seen so I started with that as my corner frequencies. Solving for the middle frequency by doing $W_o=sqrt(W_1*W_2)$. Then I chose and R of 100 $ohms$ because It is a good round number. I then solved for L by $L=R/B$ where B is the band-with between the corner frequencies in this case 200 Hz and for C by $W_o=1/sqrt(L*C)$. after obtaining these foundation values I plug them in my code and made it so I could change my corner frequencies if my attenuation's were off.
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=14
+cm]{rlccode.png}
+\end{subfigure}
+\caption{ Code for RLC values and filtering the transfer function}
+\label{fig2:image22}
+\end{figure}
+
+\clearpage
+I also needed the transfer function of my series RLC because using Lab 10 code I would pass my transfer function coefficient's to $sig.bilinear() $ and then $sig.lfilter$. These library functions will pass my noisy signal through the RLC circuit using the RLC values I calculated and I should get the frequencies I wanted. The transfer function looks like so;
+
+
+\[H(s) = \frac{\frac{R}{L}}{s^{2} + \frac{R}{L}s + \frac{1}{LC}}\]
+
+Inputting the coefficients only and passing it to the two functions to filter I obtain a final signal that should be filter which is what line 246 and 247 in Figure 3 is doing. Figure 3 also shows the code to graph the filter signals as well as the bode plot on lines 241-244. The graphs are found under the result section.
+
+
+
+
+\subsection{Part 3}
+Part 3 was to generate bode plots to confirm the appropriate attenuation's where the middle frequencies is attenuated by less then -.3 dB and the low frequencies by at least -30 dB and finally the high frequencies bu at least -21 dB. In order to achieve this special attention to your RLC components should be taken and your corner frequencies. I ended p switching my corner frequencies to obtain my attenuation's within the requirements.
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=11
+cm]{bode.png}
+\end{subfigure}
+\caption{ Code for plotting Bode plots and validating results}
+\label{fig2:image22}
+\end{figure}
+
+\clearpage
+Figure 4 shows calling the bode plots at the different frequencies ranges to see their attenuation's and the graphs are under the result section. Like stated earlier choosing different corner frequencies changes your attenuation's and so on.
+
+
+
+\subsection{Part 4}
+Finally I graphed the stem plots for the filtered signal which is just repeating Figure 2 plotting style except this time instead of the noisy signal it should be the clean signal that came out after putting it through the circuit. Figure 5 shows the code for the graphing section of the "clean" filter signal. If this works then I still have a job otherwise I'm jobless. The FFT graphs are shown in the result section.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.9\linewidth, height=14
+cm]{filterfft.png}
+\end{subfigure}
+\caption{ Code for plotting Bode plots and validating results}
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+\section{Results}\label{sec:res}
+
+\subsection{Part 1}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (0).png}
+\end{subfigure}
+\caption{ Plotting the noisy signal  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (1).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal all frequencies magnitudes }
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (2).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal all frequencies phase }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (3).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal magnitudes 0 - 1600 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (4).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal phases 0 - 1600 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (5).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal magnitudes 1600-2200 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (6).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal phase 1600-2200 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (7).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal magnitude 2200 - 100000 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (8).png}
+\end{subfigure}
+\caption{ FFT of the noisy signal phase 2200 - 100000 Hz  }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+\subsection{Part 2}
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=1\linewidth, height=17
+cm]{df.jpg}
+\end{subfigure}
+\caption{ Series RLC figuring out base components}
+\label{fig2:image22}
+\end{figure}
+
+
+
+\clearpage
+\subsection{Part 3}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (10).png}
+\end{subfigure}
+\caption{ Filter signal after passing it through the RLC circuit  }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (9).png}
+\end{subfigure}
+\caption{ Bode plot showing all frequencies magnitude and phase after filtering it}
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (11).png}
+\end{subfigure}
+\caption{ Bode plot  magnitude and phase after filtering  0 - 1600 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (12).png}
+\end{subfigure}
+\caption{ Bode plot magnitude and phase after filtering 1600 - 2200 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (13).png}
+\end{subfigure}
+\caption{ Bode plot  magnitude and phase after filtering noisy signal phases 2200 - 100000 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\clearpage
+
+\subsection{Part 4}
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (14).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal all frequencies magnitudes }
+\label{fig2:image22}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (15).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal all frequencies phase }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (16).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal magnitudes 0 - 1600 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (17).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal phases 0 - 1600 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (18).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal magnitudes 1600-2200 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (19).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal phase 1600-2200 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (20).png}
+\end{subfigure}
+\caption{ FFT of the noisy filtered magnitude 2200 - 100000 Hz  }
+\label{fig2:image22}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{ 1\textwidth}
+\includegraphics[width=.7\linewidth, height=8
+cm]{Figure 2022-12-07 201042 (21).png}
+\end{subfigure}
+\caption{ FFT of the filtered signal phase 2200 - 100000 Hz  }
+\label{fig2:image22}
+\end{figure}
+\clearpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Questions}\label{sec:res}
+
+
+1. Earlier this semester, you were asked what you personally wanted to get out of taking this
+course. Do you feel like that personal goal was met? Why or why not?
+\newline I think and hope so, I learned more about python then what I started and wish this would be taught as your introductory class instead of C++ but I feel a little more comfortable then when I started so I would say yep.
+
+
+\noindent 2. Please fill out the course feedback survey, I will read every word and very much appreciate
+the feedback. 
+\newlineOk.
+\noindent 
+
+
+\noindent 3. Good luck in the rest of your education and career!
+\newline Thank You, you too!
+\
+
+%\lipsum[7-8]\cite{knuthwebsite}
+%===========================================================
+%===========================================================
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\end{document}
+
+
+
+
